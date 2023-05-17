@@ -1,5 +1,6 @@
-package com.ekaufmann.blackjack;
+package com.ekaufmann.blackjack.entity;
 
+import com.ekaufmann.blackjack.entity.Card;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,7 +10,7 @@ public class CardTest {
 
     @Test
     void cardShouldInstantiateWithoutValues() {
-        Card card = new Card();
+        var card = new Card();
 
         assertNull(card.getSuit());
         assertNull(card.getPoints());
@@ -22,12 +23,12 @@ public class CardTest {
         var points = 2;
         var face = "2";
 
-        Card card = new Card(
+        var card = new Card(
             suit, points, face
         );
 
-        assertEquals(suit, card.getSuit());
-        assertEquals(points, card.getPoints());
-        assertEquals(face, card.getFace());
+        assertEquals(card.getSuit(), suit);
+        assertEquals(card.getPoints(), points);
+        assertEquals(card.getFace(), face);
     }
 }
