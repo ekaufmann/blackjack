@@ -1,29 +1,24 @@
 package com.ekaufmann.blackjack.entity;
 
-import com.ekaufmann.blackjack.entity.Card;
-import com.ekaufmann.blackjack.entity.Deck;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class DeckTest {
 
     @Test
-    void deckShouldInstantiateWithoutCards() {
+    void deckShouldInstantiateWithCards() {
         var deck = new Deck();
 
-        assertNull(deck.getCards());
+        assertNotNull(deck.getCards());
     }
 
     @Test
-    void deckShouldInstantiateWithCards() {
-        var card = new Card("hearts", 2, "2");
-        var listOfCards = List.of(card);
-        var deck = new Deck(listOfCards);
+    void deckShouldInstantiateWith52Cards() {
+        var deck = new Deck();
 
-        assertEquals(deck.getCards(), listOfCards);
+        assertNotNull(deck.getCards());
+        assertEquals(deck.getCards().size(), 52);
     }
 }
