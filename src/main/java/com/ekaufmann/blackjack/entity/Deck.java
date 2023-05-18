@@ -3,7 +3,6 @@ package com.ekaufmann.blackjack.entity;
 import lombok.ToString;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -22,10 +21,8 @@ public class Deck {
 
     public Card hit() {
         int randomIndex = new Random().nextInt(cards.size());
-        var removed = cards.remove(randomIndex);
 
-        System.out.println(cards);
-        return removed;
+        return cards.remove(randomIndex);
     }
 
     private void populate() {
