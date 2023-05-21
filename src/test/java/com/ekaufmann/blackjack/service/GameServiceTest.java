@@ -1,22 +1,31 @@
 package com.ekaufmann.blackjack.service;
 
+import com.ekaufmann.blackjack.dto.PlayerDTO;
 import com.ekaufmann.blackjack.entity.Card;
 import com.ekaufmann.blackjack.entity.Deck;
 import com.ekaufmann.blackjack.entity.Player;
+import com.ekaufmann.blackjack.mapper.PlayerMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.only;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -32,6 +41,14 @@ public class GameServiceTest {
     @Mock
     private Deck deck;
 
+    @Spy
+    private PlayerMapper mapper = PlayerMapper.INSTANCE;
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
     @Test
     void thePlayerShouldHitTheDeckAndGetACardSuccessfully() {
         var card = new Card("hearts", 2, "2");
@@ -42,7 +59,8 @@ public class GameServiceTest {
         var response = service.givePlayerACard();
 
         verify(deck, only()).hit();
-        verify(player, only()).receiveCard(any(Card.class));
+        verify(player, times(1)).receiveCard(card);
+        verify(mapper, times(1)).toDTO(player);
         assertNotNull(response);
     }
 
@@ -92,8 +110,6 @@ public class GameServiceTest {
 
     @Test
     void shouldRetrieveThePlayerCardsAndScoreSuccessfully() {
-        when(player.toString()).thenReturn("Cards: \nPoints: 0\n");
-
         var result = service.retrievePlayerCardsAndScore();
 
         assertNotNull(result);
