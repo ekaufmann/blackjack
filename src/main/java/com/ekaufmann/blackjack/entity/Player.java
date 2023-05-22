@@ -21,19 +21,4 @@ public class Player {
         points += card.getPoints();
         cards.add(card);
     }
-
-    @Override
-    public String toString() {
-        var output = new StringBuilder().append("Cards: ");
-
-        cards.forEach(card -> {
-            output.append(card.toString());
-        });
-
-        return output
-            .append("\nPoints: ")
-            .append(points)
-            .append("\n")
-            .toString();
-    }
 }

@@ -21,7 +21,6 @@ public class Deck {
 
     public Card hit() {
         int randomIndex = new Random().nextInt(cards.size());
-
         return cards.remove(randomIndex);
     }
 
