@@ -1,7 +1,6 @@
 FROM gradle:8.1.1-jdk17-alpine AS GRADLE_BUILD
 WORKDIR /home/blackjack/
 COPY --chown=gradle:gradle . .
-#COPY --chown=gradle:gradle ../src /home/blackjack/gradle/src
 RUN gradle build --no-daemon
 
 ARG VERSION
