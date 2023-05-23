@@ -1,6 +1,5 @@
 package com.ekaufmann.blackjack.entity;
 
-import com.ekaufmann.blackjack.entity.Card;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
