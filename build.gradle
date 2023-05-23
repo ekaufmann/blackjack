@@ -3,15 +3,20 @@ plugins {
     id 'application'
 }
 
+apply plugin: 'java'
+apply plugin: 'application'
+
 group 'com.ekaufmann'
 version '1.0.0'
 
-ext {
-    appMain = "com.ekaufmann.blackjack.App"
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 application {
-    mainClassName = appMain
+    mainClassName = 'com.ekaufmann.blackjack.App'
 }
 
 repositories {
@@ -22,12 +27,46 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.26'
     annotationProcessor 'org.projectlombok:lombok:1.18.26'
 
-    testCompileOnly 'org.projectlombok:lombok:1.18.26'
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+    testImplementation 'org.projectlombok:lombok:1.18.26'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testImplementation 'org.mockito:mockito-core:5.2.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.2.0'
 }
 
 test {
     useJUnitPlatform()
+}
+
+task libs(type: Sync) {
+    from configurations.runtimeClasspath
+    into "$buildDir/libs"
+    preserve {
+        include 'mapstruct-intellij-*.jar'
+    }
+    rename 'mapstruct-1.5.5.Final.jar', 'mapstruct.jar'
+}
+
+jar {
+    from('src/main/resources') {
+        include '**/*.*'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    manifest {
+        attributes('Main-Class': mainClassName,
+                'Implementation-Version': version,
+                'Built-By': System.getProperty('user.name'),
+                'Built-Date': new Date(),
+        )
+    }
+}
+
+run {
+    standardInput = System.in
 }

@@ -1,0 +1,8 @@
+version: '3'
+services:
+  blackjack:
+    container_name: blackjack
+    build:
+      context: ../
+      dockerfile: ./devops/Dockerfile
+    image: blackjack:latest
